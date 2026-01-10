@@ -67,7 +67,7 @@ module.exports = {
             user.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
             user.resetPasswordExpires = Date.now() + 3600000;
             await user.save();
-            const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+            const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
             console.log('PASSWORD RESET LINK (for testing):', resetUrl);
             res.json({ msg: "Password reset link has been sent." });
         } catch (err) {
