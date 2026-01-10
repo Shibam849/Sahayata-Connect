@@ -1,324 +1,111 @@
-\# Sahayata Connect – NGO Event \& Campaign Management System
+# Sahayata Connect
 
-
-
-Sahayata Connect is a full-stack MERN web application developed to provide a centralized platform for managing NGO events and volunteer registrations. The system bridges the gap between non-profit organizations and volunteers by digitizing event discovery, registration, and administration.
-
-
+Sahayata Connect is a full-stack **MERN (MongoDB, Express, React, Node.js)** web application developed for **NGO event and volunteer management**.  
+The platform provides separate **User** and **Admin** portals for efficient event handling and participation tracking.
 
 ---
 
+## 🔗 Live Project Links
 
+- **User Website**  
+  https://sahayata-connect-1b7ct7hm4-shibam-hazras-projects.vercel.app
 
-\## 🔹 Project Overview
+- **Admin Panel**  
+  https://sahayata-connect-ul2c.vercel.app
 
+- **Backend API**  
+  https://sahayata-connect-server.onrender.com
 
-
-Many NGOs rely on manual and fragmented methods for event promotion and volunteer management. Sahayata Connect solves this problem by offering:
-
-
-
-\- A public platform for volunteers to discover and register for events
-
-\- A secure admin dashboard for managing events and monitoring platform activity
-
-\- A centralized backend system for authentication, data storage, and analytics
-
-
-
-The project follows a \*\*three-tier MERN architecture\*\* and is fully functional.
-
-
+- **GitHub Repository**  
+  https://github.com/Shibam849/Sahayata-Connect
 
 ---
 
+## 📂 Project Structure
 
-
-\## 🔹 Technology Stack
-
-
-
-\*\*Frontend (User Site):\*\*
-
-\- React.js
-
-\- HTML5, CSS3, JavaScript
-
-\- React Router
-
-
-
-\*\*Frontend (Admin Panel):\*\*
-
-\- React.js
-
-\- SB Admin 2 (Bootstrap-based UI)
-
-
-
-\*\*Backend:\*\*
-
-\- Node.js
-
-\- Express.js
-
-\- MongoDB (Atlas)
-
-\- Mongoose ODM
-
-\- JWT Authentication
-
-\- Bcrypt.js
-
-\- Express File Upload
-
-
-
----
-
-
-
-\## 🔹 Project Structure
-
-
-
-sahayata-connect/
-
+Sahayata-Connect/
 │
-
-├── site/ # User-facing React application
-
-├── admin/ # Admin dashboard React application
-
-└── server/ # Backend API (Node + Express)
-
-
-
+├── site/ → User-facing React application
+├── admin/ → Admin dashboard React application
+├── server/ → Node.js & Express backend
+│
+├── .env.example
+├── .gitignore
+└── README.md
 
 
 ---
 
+## ⚙️ Tech Stack
 
+### Frontend
+- React.js
+- JavaScript (ES6+)
+- HTML5 & CSS3
+- Axios
 
-\## 🔹 Core Features
+### Backend
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+- JWT Authentication
+- Nodemailer (Password reset)
 
-
-
-\### 👤 User (Volunteer)
-
-\- User registration and login
-
-\- Secure password reset using token-based authentication
-
-\- Browse and search events
-
-\- View event details
-
-\- Register for events
-
-\- View registered events in profile
-
-
-
-\### 🛠 Admin
-
-\- Secure admin login
-
-\- Dashboard with real-time statistics
-
-\- Add events with image upload
-
-\- View and delete events
-
-\- View all users
-
-\- View all event registrations
-
-\- Monthly and recent event analytics
-
-
+### Deployment
+- Frontend (User & Admin): **Vercel**
+- Backend API: **Render**
+- Database: **MongoDB Atlas**
 
 ---
 
+## ✨ Features
 
+### User Module
+- User registration and login
+- View NGO events
+- Register for events
+- View registered events
+- Forgot & reset password via email
 
-\## 🔹 Authentication \& Security
-
-
-
-\- JWT-based authentication for users
-
-\- Password hashing using bcrypt
-
-\- Token expiration handling
-
-\- Admin access restricted via protected routes
-
-\- Environment variables used for sensitive credentials
-
-
+### Admin Module
+- Admin authentication
+- Add and manage events
+- View total users
+- View event registrations
+- Dashboard statistics
 
 ---
 
+## 🔐 Environment Variables (Server)
 
-
-\## 🔹 Environment Configuration
-
-
-
-Create a `.env` file inside the `server` folder:
-
-
+Create a `.env` file inside the **server** folder:
 
 PORT=2000
-
-MONGO\_URI=your\_mongodb\_connection\_string
-
-JWT\_SECRET=your\_jwt\_secret
-
-
-
-
-
-⚠️ Do not commit `.env` to GitHub.
-
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+EMAIL_USER=your_gmail_address
+EMAIL_PASS=your_gmail_app_password
+CLIENT_URL=https://sahayata-connect-1b7ct7hm4-shibam-hazras-projects.vercel.app
 
 
 ---
 
+## 📌 Important Notes
 
+- Uploaded images are stored on the backend server filesystem.  
+  On platforms like **Render**, this storage is temporary and may reset on redeployment.
+- Email-based password reset uses **Gmail App Passwords** for security.
+- For production-scale applications, cloud storage solutions (e.g., Cloudinary, AWS S3) are recommended.
 
-\## 🔹 Installation \& Running the Project
+---
 
+## 👤 Author
 
+**Shibam Hazra**  
+GitHub: https://github.com/Shibam849
 
-\### 1️⃣ Clone the repository
+---
 
-```bash
+## 📄 License
 
-git clone https://github.com/your-username/sahayata-connect.git
-
-cd sahayata-connect
-
-
-
-2️⃣ Backend setup
-
-
-
-cd server
-
-npm install
-
-npm start
-
-
-
-
-
-3️⃣ User site setup
-
-
-
-cd ../site
-
-npm install
-
-npm start
-
-
-
-
-
-4️⃣ Admin panel setup
-
-
-
-cd ../admin
-
-npm install
-
-npm start
-
-
-
-
-
-
-
-🔹 Testing
-
-Unit testing for backend controllers
-
-
-
-Integration testing between frontend and backend
-
-
-
-Manual user acceptance testing (UAT)
-
-
-
-All major use cases have been tested and verified.
-
-
-
-🔹 Current Limitations
-
-Donation feature is UI-only (no payment gateway)
-
-
-
-NGOs cannot self-manage events (admin-only control)
-
-
-
-No feedback or rating system
-
-
-
-No notification system
-
-
-
-🔹 Future Enhancements
-
-Payment gateway integration
-
-
-
-Dedicated NGO dashboard
-
-
-
-Advanced analytics and reporting
-
-
-
-Email and in-app notifications
-
-
-
-Mobile application (Android/iOS)
-
-
-
-🔹 Academic Context
-
-This project was developed as part of Industrial Training under Techno Exponent, certified by Euphoria Genx, and submitted to Brainware University.
-
-
-
-🔹 Author
-
-Shibam Hazra
-
-B.Tech CSE (Data Science)
-
-Brainware University
-
-
-
-
-
+This project is developed for **educational and academic purposes**.
