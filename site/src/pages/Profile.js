@@ -16,7 +16,7 @@ function Profile() {
                 return;
             }
             try {
-                const response = await fetch('${process.env.REACT_APP_API_URL}/user/my-registrations', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/user/my-registrations`, {
                     headers: { 'x-auth-token': token }
                 });
                 if (!response.ok) throw new Error('Failed to fetch registrations.');
