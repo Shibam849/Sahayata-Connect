@@ -1,11 +1,10 @@
 import LRFooter from "../common/LRFooter";
 import LRNavbar from "../common/LRNavbar";
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
-
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate();
 
     // State for all registration form fields
     const [formData, setFormData] = useState({
@@ -55,16 +54,21 @@ function Register() {
                 }),
             });
 
-            const data = await response.json();
+            // ✅ SAFE JSON HANDLING (ONLY CHANGE)
+            const text = await response.text();
+            let data = {};
+            try {
+                data = text ? JSON.parse(text) : {};
+            } catch {
+                throw new Error("Invalid server response");
+            }
 
             if (!response.ok) {
-                // If server responds with an error (e.g., user exists)
                 throw new Error(data.msg || 'Something went wrong');
             }
 
             // Handle successful registration
             setSuccess('Registration successful! Redirecting to login...');
-            console.log("Registration successful:", data);
 
             // Redirect to login page after a short delay
             setTimeout(() => {
@@ -89,34 +93,102 @@ function Register() {
                                     <p>Start making a difference today</p>
                                 </div>
                                 <form className="register-form" id="registerForm" onSubmit={handleSubmit}>
-                                    {error && <p className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>}
-                                    {success && <p className="success-message" style={{ color: 'green', marginBottom: '1rem' }}>{success}</p>}
+                                    {error && (
+                                        <p className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>
+                                            {error}
+                                        </p>
+                                    )}
+                                    {success && (
+                                        <p className="success-message" style={{ color: 'green', marginBottom: '1rem' }}>
+                                            {success}
+                                        </p>
+                                    )}
                                     <div className="form-row">
                                         <div className="form-group">
-                                            <label htmlFor="firstName"><i className="fas fa-user" /> First Name</label>
-                                            <input type="text" id="firstName" name="firstName" placeholder="Your first name" value={formData.firstName} onChange={handleChange} required />
+                                            <label htmlFor="firstName">
+                                                <i className="fas fa-user" /> First Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="firstName"
+                                                name="firstName"
+                                                placeholder="Your first name"
+                                                value={formData.firstName}
+                                                onChange={handleChange}
+                                                required
+                                            />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="lastName"><i className="fas fa-user" /> Last Name</label>
-                                            <input type="text" id="lastName" name="lastName" placeholder="Your last name" value={formData.lastName} onChange={handleChange} required />
+                                            <label htmlFor="lastName">
+                                                <i className="fas fa-user" /> Last Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="lastName"
+                                                name="lastName"
+                                                placeholder="Your last name"
+                                                value={formData.lastName}
+                                                onChange={handleChange}
+                                                required
+                                            />
                                         </div>
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="email"><i className="fas fa-envelope" /> Email Address</label>
-                                        <input type="email" id="email" name="email" placeholder="Your email address" value={formData.email} onChange={handleChange} required />
+                                        <label htmlFor="email">
+                                            <i className="fas fa-envelope" /> Email Address
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            placeholder="Your email address"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                        />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="phone"><i className="fas fa-phone" /> Phone Number</label>
-                                        <input type="tel" id="phone" name="phone" placeholder="Your phone number" value={formData.phone} onChange={handleChange} required />
+                                        <label htmlFor="phone">
+                                            <i className="fas fa-phone" /> Phone Number
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            id="phone"
+                                            name="phone"
+                                            placeholder="Your phone number"
+                                            value={formData.phone}
+                                            onChange={handleChange}
+                                            required
+                                        />
                                     </div>
                                     <div className="form-row">
                                         <div className="form-group">
-                                            <label htmlFor="password"><i className="fas fa-lock" /> Password</label>
-                                            <input type="password" id="password" name="password" placeholder="Create a password" value={formData.password} onChange={handleChange} required />
+                                            <label htmlFor="password">
+                                                <i className="fas fa-lock" /> Password
+                                            </label>
+                                            <input
+                                                type="password"
+                                                id="password"
+                                                name="password"
+                                                placeholder="Create a password"
+                                                value={formData.password}
+                                                onChange={handleChange}
+                                                required
+                                            />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="confirmPassword"><i className="fas fa-lock" /> Confirm Password</label>
-                                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" value={formData.confirmPassword} onChange={handleChange} required />
+                                            <label htmlFor="confirmPassword">
+                                                <i className="fas fa-lock" /> Confirm Password
+                                            </label>
+                                            <input
+                                                type="password"
+                                                id="confirmPassword"
+                                                name="confirmPassword"
+                                                placeholder="Confirm your password"
+                                                value={formData.confirmPassword}
+                                                onChange={handleChange}
+                                                required
+                                            />
                                         </div>
                                     </div>
                                     <button type="submit" className="register-btn">Create Account</button>
@@ -124,15 +196,17 @@ function Register() {
                             </div>
                         </div>
                         <div className="register-right">
-                            <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Volunteers" />
+                            <img
+                                src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Volunteers"
+                            />
                         </div>
                     </div>
                 </section>
                 <LRFooter />
             </div>
         </>
-    )
+    );
 }
 
 export default Register;
-

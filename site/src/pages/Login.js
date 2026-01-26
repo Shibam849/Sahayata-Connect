@@ -3,7 +3,6 @@ import LRNavbar from "../common/LRNavbar";
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-
 function Login() {
     const navigate = useNavigate();
 
@@ -36,7 +35,14 @@ function Login() {
                 body: JSON.stringify(formData),
             });
 
-            const data = await response.json();
+            // ✅ SAFE JSON HANDLING (ONLY CHANGE)
+            const text = await response.text();
+            let data = {};
+            try {
+                data = text ? JSON.parse(text) : {};
+            } catch {
+                throw new Error("Invalid server response");
+            }
 
             if (!response.ok) {
                 throw new Error(data.msg || 'Login failed. Please check your credentials.');
@@ -68,33 +74,53 @@ function Login() {
                             {success && <div className="form-feedback success">{success}</div>}
                             <form onSubmit={handleSubmit} className="login-form">
                                 <div className="form-group">
-                                    <label htmlFor="email"><i className="fas fa-envelope" /> Email Address</label>
-                                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+                                    <label htmlFor="email">
+                                        <i className="fas fa-envelope" /> Email Address
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="password"><i className="fas fa-lock" /> Password</label>
+                                    <label htmlFor="password">
+                                        <i className="fas fa-lock" /> Password
+                                    </label>
                                     <div className="password-wrapper">
-                                        <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required />
+                                        <input
+                                            type="password"
+                                            id="password"
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-options">
-
-                                    {/* --- "Remember me" CHECKBOX REMOVED --- */}
-                                    
-                                    <Link to="/forgot-password" className="forgot-password">Forgot password?</Link>
+                                    <Link to="/forgot-password" className="forgot-password">
+                                        Forgot password?
+                                    </Link>
                                 </div>
                                 <button type="submit" className="login-btn">Sign In</button>
                             </form>
                         </div>
                         <div className="login-right">
-                            <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Community Impact" />
+                            <img
+                                src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Community Impact"
+                            />
                         </div>
                     </div>
                 </section>
                 <LRFooter />
             </div>
         </>
-    )
+    );
 }
 
 export default Login;
