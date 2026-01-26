@@ -11,40 +11,21 @@ function ResetPassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setFeedback({ message: '', type: '' });
-
         if (password !== confirmPassword) {
             setFeedback({ message: 'Passwords do not match.', type: 'error' });
             return;
         }
-
         try {
-            const response = await fetch(
-                `${process.env.REACT_APP_API_URL}/user/reset-password/${token}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password }),
-                }
-            );
-
-            // ✅ SAFE JSON HANDLING (ONLY CHANGE)
-            const text = await response.text();
-            let data = {};
-            try {
-                data = text ? JSON.parse(text) : {};
-            } catch {
-                throw new Error("Invalid server response");
-            }
-
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/user/reset-password/${token}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password }),
+            });
+            const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.msg || 'Failed to reset password.');
             }
-
-            setFeedback({
-                message: 'Password has been reset successfully! You can now log in.',
-                type: 'success'
-            });
-
+            setFeedback({ message: 'Password has been reset successfully! You can now log in.', type: 'success' });
         } catch (error) {
             setFeedback({ message: error.message, type: 'error' });
         }
@@ -63,13 +44,11 @@ function ResetPassword() {
                         {feedback.message}
                     </div>
                 )}
-
+                
                 {feedback.type !== 'success' ? (
                     <form onSubmit={handleSubmit} className="reset-page-form">
                         <div className="form-group">
-                            <label htmlFor="password">
-                                <i className="fas fa-lock" /> New Password
-                            </label>
+                            <label htmlFor="password"><i className="fas fa-lock" /> New Password</label>
                             <input
                                 type="password"
                                 id="password"
@@ -79,9 +58,7 @@ function ResetPassword() {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="confirmPassword">
-                                <i className="fas fa-lock" /> Confirm New Password
-                            </label>
+                            <label htmlFor="confirmPassword"><i className="fas fa-lock" /> Confirm New Password</label>
                             <input
                                 type="password"
                                 id="confirmPassword"
@@ -90,16 +67,15 @@ function ResetPassword() {
                                 required
                             />
                         </div>
-                        <button type="submit" className="reset-page-btn">
-                            Reset Password
-                        </button>
+                        <button type="submit" className="reset-page-btn">Reset Password</button>
                     </form>
                 ) : (
                     <div className="reset-page-footer">
-                        <Link
-                            to="/login"
-                            className="reset-page-btn"
-                            target="_blank"
+                        {/* --- THE FIX IS HERE --- */}
+                        <Link 
+                            to="/login" 
+                            className="reset-page-btn" 
+                            target="_blank" 
                             rel="noopener noreferrer"
                         >
                             Go to Login

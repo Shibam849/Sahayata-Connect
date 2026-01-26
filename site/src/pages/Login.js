@@ -35,13 +35,9 @@ function Login() {
                 body: JSON.stringify(formData),
             });
 
-            // ✅ SAFE JSON HANDLING (ONLY CHANGE)
-            const text = await response.text();
             let data = {};
-            try {
-                data = text ? JSON.parse(text) : {};
-            } catch {
-                throw new Error("Invalid server response");
+            if (response.headers.get('content-type')?.includes('application/json')) {
+                data = await response.json();
             }
 
             if (!response.ok) {

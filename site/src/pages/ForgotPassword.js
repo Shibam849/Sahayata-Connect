@@ -23,13 +23,9 @@ function ForgotPassword() {
                 body: JSON.stringify({ email }),
             });
 
-            // ✅ SAFE JSON HANDLING (ONLY CHANGE)
-            const text = await response.text();
             let data = {};
-            try {
-                data = text ? JSON.parse(text) : {};
-            } catch {
-                throw new Error("Invalid server response");
+            if (response.headers.get('content-type')?.includes('application/json')) {
+                data = await response.json();
             }
 
             if (!response.ok) {
@@ -37,7 +33,7 @@ function ForgotPassword() {
             }
             
             setFeedback({
-                message: "If an account with that email exists, a password reset link has been sent.",
+                message: 'If an account with that email exists, a password reset link has been sent.',
                 type: 'success'
             });
 

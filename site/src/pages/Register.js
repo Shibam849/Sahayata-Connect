@@ -1,10 +1,10 @@
 import LRFooter from "../common/LRFooter";
 import LRNavbar from "../common/LRNavbar";
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 
 function Register() {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Hook for navigation
 
     // State for all registration form fields
     const [formData, setFormData] = useState({
@@ -54,21 +54,19 @@ function Register() {
                 }),
             });
 
-            // ✅ SAFE JSON HANDLING (ONLY CHANGE)
-            const text = await response.text();
             let data = {};
-            try {
-                data = text ? JSON.parse(text) : {};
-            } catch {
-                throw new Error("Invalid server response");
+            if (response.headers.get('content-type')?.includes('application/json')) {
+                data = await response.json();
             }
 
             if (!response.ok) {
+                // If server responds with an error (e.g., user exists)
                 throw new Error(data.msg || 'Something went wrong');
             }
 
             // Handle successful registration
             setSuccess('Registration successful! Redirecting to login...');
+            console.log("Registration successful:", data);
 
             // Redirect to login page after a short delay
             setTimeout(() => {
@@ -191,7 +189,9 @@ function Register() {
                                             />
                                         </div>
                                     </div>
-                                    <button type="submit" className="register-btn">Create Account</button>
+                                    <button type="submit" className="register-btn">
+                                        Create Account
+                                    </button>
                                 </form>
                             </div>
                         </div>
