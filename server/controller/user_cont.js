@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
 
 const JWT_SECRET = "yourSecretKey";
 
-/* ================= EMAIL TRANSPORTER (ADDED) ================= */
+/* ================= EMAIL TRANSPORTER ================= */
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS
     }
 });
-/* ============================================================= */
+/* ==================================================== */
 
 module.exports = {
 
@@ -38,7 +38,7 @@ module.exports = {
             });
         } catch (err) {
             console.error(err.message);
-            res.status(500).send("Server error");
+            res.status(500).json({ msg: "Server error" });
         }
     },
 
@@ -63,11 +63,10 @@ module.exports = {
             });
         } catch (err) {
             console.error(err.message);
-            res.status(500).send("Server error");
+            res.status(500).json({ msg: "Server error" });
         }
     },
 
-    /* ================= FORGOT PASSWORD (FIXED) ================= */
     async forgotPassword(req, res) {
         const { email } = req.body;
         try {
@@ -98,10 +97,9 @@ module.exports = {
 
         } catch (err) {
             console.error(err.message);
-            res.status(500).send("Server error");
+            res.status(500).json({ msg: "Server error" });
         }
     },
-    /* =========================================================== */
 
     async resetPassword(req, res) {
         try {
@@ -122,7 +120,7 @@ module.exports = {
             res.json({ msg: "Password has been updated." });
         } catch (err) {
             console.error(err.message);
-            res.status(500).send("Server error");
+            res.status(500).json({ msg: "Server error" });
         }
     },
 
