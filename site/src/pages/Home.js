@@ -53,7 +53,8 @@ function Home() {
         try {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const date = new Date(dateString);
-            return isNaN(date) ? dateString : date.toLocaleDateDateString('en-US', options);
+            // FIX: Removed the extra 'Date' from the method name
+            return isNaN(date) ? dateString : date.toLocaleDateString('en-US', options);
         } catch (error) {
             return dateString;
         }
@@ -81,7 +82,7 @@ function Home() {
 
             {/* About Us Summary Section (No changes) */}
             <section className="home-about-section">
-                {/* ... existing content ... */}
+               {/* Content omitted for brevity, keep your original content here */}
             </section>
 
             {/* --- UPDATED: Upcoming Events Section is now DYNAMIC --- */}
@@ -122,4 +123,3 @@ function Home() {
 }
 
 export default Home;
-

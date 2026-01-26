@@ -6,7 +6,8 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
-const JWT_SECRET = "yourSecretKey";
+// FIX: Use Env variable for secret, fallback to string for local dev
+const JWT_SECRET = process.env.JWT_SECRET || "yourSecretKey";
 
 /* ================= EMAIL TRANSPORTER ================= */
 const transporter = nodemailer.createTransport({

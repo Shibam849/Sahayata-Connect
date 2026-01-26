@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './ResetPassword.css'; // Import the new dedicated stylesheet
+import './ResetPassword.css';
 
 function ResetPassword() {
     const { token } = useParams();
@@ -71,13 +71,8 @@ function ResetPassword() {
                     </form>
                 ) : (
                     <div className="reset-page-footer">
-                        {/* --- THE FIX IS HERE --- */}
-                        <Link 
-                            to="/login" 
-                            className="reset-page-btn" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                        >
+                        {/* FIX: Removed target="_blank" so it opens in the same tab */}
+                        <Link to="/login" className="reset-page-btn">
                             Go to Login
                         </Link>
                     </div>

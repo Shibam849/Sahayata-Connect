@@ -3,9 +3,6 @@ const app = exp();
 
 app.use(exp.static("public"));
 
-
-
-
 const cors = require("cors");
 app.use(cors());
 
@@ -17,9 +14,12 @@ const expressFileupload = require("express-fileupload");
 app.use(expressFileupload());
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://Shibam849:s123456@cluster0.tveqczp.mongodb.net/eventDB?retryWrites=true&w=majority&appName=Cluster0");
+// Uses Env variable if available, otherwise falls back to your string
+const dbUrl = process.env.MONGO_URL || "mongodb+srv://Shibam849:s123456@cluster0.tveqczp.mongodb.net/eventDB?retryWrites=true&w=majority&appName=Cluster0";
 
-
+mongoose.connect(dbUrl)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -39,10 +39,12 @@ app.use("/dashboard", dr);
 
 // User routes (newly added)
 const ur = require("./routes/userr");
-app.use("/user", ur); // Using /user as the base path for user-related actions
+app.use("/user", ur); 
 
 app.use('/details', require('./routes/detailsr'));
 
-app.listen(2000, () => {
-    console.log("Server started on port 2000");
+// FIX: Listen on the environment port provided by the host
+const PORT = process.env.PORT || 2000;
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
 });
