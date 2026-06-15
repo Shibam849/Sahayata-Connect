@@ -25,6 +25,7 @@ function Home() {
     // --- NEW: Effect hook to fetch events from the backend ---
     useEffect(() => {
         const fetchEvents = async () => {
+            
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/event/select`);
                 if (!response.ok) {
@@ -97,6 +98,7 @@ function Home() {
                         {events.map((event) => (
                             <div className="event-card" key={event._id}>
                                 <div className="event-image" style={{ backgroundImage: `url("${process.env.REACT_APP_API_URL}/event_img/${event.eImage}")` }}>
+                                
                                 </div>
                                 <div className="event-content">
                                     <h3 className="event-title">{event.eName}</h3>

@@ -9,7 +9,7 @@ router.get("/reg",async (req,res)=>{
 
     // var insobj={
     //     name : "Shibam",
-    //     email : "shibamhazra849@gmail.com",
+    //     email : "shibamhazra850@gmail.com",
     //     password : hp
     // }
 

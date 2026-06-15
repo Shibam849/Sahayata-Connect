@@ -15,26 +15,28 @@ function initializeAboutPage() {
 // Search Box Functionality (Same as home)
 function initializeSearchBox() {
     const searchBox = document.getElementById('searchBox');
+
+    if (!searchBox) return;
+
     const searchInput = searchBox.querySelector('.search-input');
-    
-    if (!searchBox || !searchInput) return;
-    
+
+    if (!searchInput) return;
+
     searchBox.addEventListener('click', function() {
         searchBox.classList.add('active');
         searchInput.focus();
     });
-    
-    // Close search box when clicking outside
+
     document.addEventListener('click', function(e) {
         if (!searchBox.contains(e.target)) {
             searchBox.classList.remove('active');
         }
     });
-    
-    // Handle search input
+
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             const searchTerm = searchInput.value.trim();
+
             if (searchTerm) {
                 performSearch(searchTerm);
             }

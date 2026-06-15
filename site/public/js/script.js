@@ -184,20 +184,25 @@ function handleEventJoin(eventTitle) {
 }
 
 // Add ripple effect CSS
-const rippleStyle = document.createElement('style');
-rippleStyle.textContent = `
-    @keyframes rippleEffect {
-        0% {
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 1;
+if (!document.getElementById('ripple-style')) {
+    const rippleStyle = document.createElement('style');
+    rippleStyle.id = 'ripple-style';
+
+    rippleStyle.textContent = `
+        @keyframes rippleEffect {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(20);
+                opacity: 0;
+            }
         }
-        100% {
-            transform: translate(-50%, -50%) scale(20);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(rippleStyle);
+    `;
+
+    document.head.appendChild(rippleStyle);
+}
 
 // Navbar scroll effect
 function initializeNavbar() {

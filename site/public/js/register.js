@@ -14,6 +14,11 @@ function initializeRegisterPage() {
 // Form validation and submission
 function initializeFormValidation() {
     const registerForm = document.getElementById('registerForm');
+
+    if (!registerForm) {
+    return;
+}
+
     const inputs = {
         firstName: document.getElementById('firstName'),
         lastName: document.getElementById('lastName'),
@@ -25,22 +30,23 @@ function initializeFormValidation() {
         experience: document.getElementById('experience'),
         terms: document.getElementById('terms')
     };
-    
-    // Real-time validation
+
     Object.keys(inputs).forEach(key => {
         if (inputs[key]) {
             inputs[key].addEventListener('blur', () => validateField(key));
             inputs[key].addEventListener('input', () => clearError(key + 'Error'));
         }
     });
-    
-    // Password confirmation real-time check
-    inputs.confirmPassword.addEventListener('input', () => validatePasswordMatch());
-    
-    // Form submission
-    registerForm.addEventListener('submit', function(e) {
+
+    if (inputs.confirmPassword) {
+        inputs.confirmPassword.addEventListener('input', () => {
+            validatePasswordMatch();
+        });
+    }
+
+    registerForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         if (validateAllFields()) {
             handleRegistration();
         }
@@ -292,14 +298,18 @@ function initializePasswordToggle() {
     const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirmPassword');
-    
-    passwordToggle.addEventListener('click', function() {
-        togglePasswordVisibility(passwordInput, this);
-    });
-    
-    confirmPasswordToggle.addEventListener('click', function() {
-        togglePasswordVisibility(confirmPasswordInput, this);
-    });
+
+    if (passwordToggle && passwordInput) {
+        passwordToggle.addEventListener('click', function() {
+            togglePasswordVisibility(passwordInput, this);
+        });
+    }
+
+    if (confirmPasswordToggle && confirmPasswordInput) {
+        confirmPasswordToggle.addEventListener('click', function() {
+            togglePasswordVisibility(confirmPasswordInput, this);
+        });
+    }
 }
 
 function togglePasswordVisibility(input, button) {
@@ -315,24 +325,36 @@ function togglePasswordVisibility(input, button) {
 function initializeSocialRegister() {
     const googleBtn = document.getElementById('googleRegister');
     const facebookBtn = document.getElementById('facebookRegister');
-    
-    googleBtn.addEventListener('click', function() {
-        this.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            this.style.transform = 'scale(1)';
-        }, 150);
-        
-        showNotification('Google registration will be implemented soon!', 'info');
-    });
-    
-    facebookBtn.addEventListener('click', function() {
-        this.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            this.style.transform = 'scale(1)';
-        }, 150);
-        
-        showNotification('Facebook registration will be implemented soon!', 'info');
-    });
+
+    if (googleBtn) {
+        googleBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+
+            showNotification(
+                'Google registration will be implemented soon!',
+                'info'
+            );
+        });
+    }
+
+    if (facebookBtn) {
+        facebookBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+
+            showNotification(
+                'Facebook registration will be implemented soon!',
+                'info'
+            );
+        });
+    }
 }
 
 // Success modal
@@ -403,18 +425,25 @@ function showNotification(message, type = 'info') {
 }
 
 // Phone number formatting
-document.getElementById('phone').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 10) value = value.slice(0, 10);
-    
-    if (value.length >= 6) {
-        value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6);
-    } else if (value.length >= 3) {
-        value = value.slice(0, 3) + '-' + value.slice(3);
-    }
-    
-    e.target.value = value;
-});
+const phoneInput = document.getElementById('phone');
+
+if (phoneInput !== null) {
+    phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+
+        if (value.length >= 6) {
+            value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6);
+        } else if (value.length >= 3) {
+            value = value.slice(0, 3) + '-' + value.slice(3);
+        }
+
+        e.target.value = value;
+    });
+}
 
 // Auto-focus first name input
 document.addEventListener('DOMContentLoaded', () => {
@@ -429,17 +458,24 @@ document.addEventListener('DOMContentLoaded', () => {
 // Password strength indicator
 function addPasswordStrengthIndicator() {
     const passwordInput = document.getElementById('password');
+
+    // FIX: stop if password field doesn't exist
+    if (!passwordInput) {
+        return;
+    }
+
     const strengthIndicator = document.createElement('div');
     strengthIndicator.className = 'password-strength';
+
     strengthIndicator.innerHTML = `
         <div class="strength-bar">
             <div class="strength-fill" id="strengthFill"></div>
         </div>
         <span class="strength-text" id="strengthText">Password strength</span>
     `;
-    
-    // Add styles
+
     const strengthStyle = document.createElement('style');
+
     strengthStyle.textContent = `
         .password-strength {
             margin-top: 8px;
@@ -465,26 +501,21 @@ function addPasswordStrengthIndicator() {
         .strength-medium { background: #f39c12; }
         .strength-strong { background: #27ae60; }
     `;
+
     document.head.appendChild(strengthStyle);
-    
-    passwordInput.parentNode.parentNode.insertBefore(strengthIndicator, passwordInput.parentNode.nextSibling);
-    
+
+    if (passwordInput.parentNode && passwordInput.parentNode.parentNode) {
+        passwordInput.parentNode.parentNode.insertBefore(
+            strengthIndicator,
+            passwordInput.parentNode.nextSibling
+        );
+    }
+
     passwordInput.addEventListener('input', function() {
         const password = this.value;
         const strength = calculatePasswordStrength(password);
         updateStrengthIndicator(strength);
     });
-}
-
-function calculatePasswordStrength(password) {
-    let score = 0;
-    if (password.length >= 8) score++;
-    if (/[a-z]/.test(password)) score++;
-    if (/[A-Z]/.test(password)) score++;
-    if (/\d/.test(password)) score++;
-    if (/[^a-zA-Z\d]/.test(password)) score++;
-    
-    return score;
 }
 
 function updateStrengthIndicator(strength) {
@@ -608,11 +639,17 @@ function createProgressIndicator() {
     `;
     document.head.appendChild(progressStyle);
     
-    const registerHeader = document.querySelector('.register-header');
-    registerHeader.appendChild(progressContainer);
+   const registerHeader = document.querySelector('.register-header');
+
+if (!registerHeader) {
+    return;
+}
+
+registerHeader.appendChild(progressContainer);
+
+// Update progress based on form completion
+updateFormProgress();
     
-    // Update progress based on form completion
-    updateFormProgress();
 }
 
 function updateFormProgress() {

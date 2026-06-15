@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const exp = require("express");
 const app = exp();
 
@@ -14,37 +16,41 @@ const expressFileupload = require("express-fileupload");
 app.use(expressFileupload());
 
 const mongoose = require("mongoose");
-// Uses Env variable if available, otherwise falls back to your string
-const dbUrl = process.env.MONGO_URL || "mongodb+srv://Shibam849:s123456@cluster0.tveqczp.mongodb.net/eventDB?retryWrites=true&w=majority&appName=Cluster0";
 
-mongoose.connect(dbUrl)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB Connected");
+  })
+  .catch((err) => {
+    console.error("MongoDB Connection Error:", err);
+  });
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// Event routes (existing)
+// Event routes
 const pr = require("./routes/event");
 app.use("/event", pr);
 
-// Admin routes (existing)
+// Admin routes
 const ar = require("./routes/adminr");
 app.use("/admin", ar);
 
-// Dashboard routes (newly added)
+// Dashboard routes
 const dr = require("./routes/dashboardr");
 app.use("/dashboard", dr);
 
-// User routes (newly added)
+// User routes
 const ur = require("./routes/userr");
-app.use("/user", ur); 
+app.use("/user", ur);
 
-app.use('/details', require('./routes/detailsr'));
+app.use("/details", require("./routes/detailsr"));
 
-// FIX: Listen on the environment port provided by the host
+// Start Server
 const PORT = process.env.PORT || 2000;
+
 app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
