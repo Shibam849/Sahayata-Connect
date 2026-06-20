@@ -43,7 +43,7 @@ function Login() {
             if (!response.ok) {
                 throw new Error(data.msg || 'Login failed. Please check your credentials.');
             }
-
+            console.log("LOGIN RESPONSE:", data);
             localStorage.setItem('userToken', data.token);
             localStorage.setItem('userName', data.user.name); 
 

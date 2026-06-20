@@ -57,6 +57,7 @@ module.exports = {
             const payload = { user: { id: user.id } };
             jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
                 if (err) throw err;
+                console.log("LOGIN USER:", user);
                 res.json({
                     token,
                     user: { name: `${user.firstName} ${user.lastName}`, email: user.email }
