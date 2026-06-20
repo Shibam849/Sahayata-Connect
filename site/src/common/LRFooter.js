@@ -5,7 +5,8 @@ function LRFooter() {
         <>
         <footer className="footer">
     <div className="container">
-      <p>© 2024 Sahayata Connect. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+      <p>© 2024 Sahayata Connect. All rights reserved. | <a href="/">Terms</a>
+<a href="/">Privacy</a></p>
     </div>
   </footer>
         </>
