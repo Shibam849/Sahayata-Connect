@@ -22,7 +22,7 @@ const transporter = nodemailer.createTransport({
 module.exports = {
 
     async registerUser(req, res) {
-        const { firstName, lastName, email, phone, password } = req.body;
+        const { name, email, phone, password } = req.body;
         try {
             let user = await User.findOne({ email });
             if (user) {
@@ -30,7 +30,7 @@ module.exports = {
             }
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
-            user = new User({ firstName, lastName, email, phone, password: hashedPassword });
+            user = new User({ name, email, phone, password: hashedPassword });
             await user.save();
             const payload = { user: { id: user.id } };
             jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
@@ -60,7 +60,7 @@ module.exports = {
                 console.log("LOGIN USER:", user);
                 res.json({
                     token,
-                    user: { name: `${user.firstName} ${user.lastName}`, email: user.email }
+                    user: { name: user.name, email: user.email }
                 });
             });
         } catch (err) {
@@ -180,7 +180,7 @@ module.exports = {
             const newRegistration = new Registration({
                 eventId,
                 userId,
-                userName: `${user.firstName} ${user.lastName}`,
+                userName: user.name,
                 eventName: event.eName
             });
 
