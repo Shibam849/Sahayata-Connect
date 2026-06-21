@@ -31,7 +31,7 @@ function Footer() {
                     <NavLink to="/">Home</NavLink><br />
                     <NavLink to="/about">About Us</NavLink><br />
                     <NavLink to={isLoggedIn ? "/profile" : "/register"}>Volunteer</NavLink><br />
-                    <NavLink to="/#events">Events</NavLink><br />
+                    <NavLink to="/events">Events</NavLink><br />
                 </div>
 
                 <div className="footer-section">
@@ -52,8 +52,7 @@ function Footer() {
             </div>
             
             <div className="footer-bottom">
-                {/* --- THE FIX IS HERE --- */}
-                {/* The remaining anchor tags have been converted to NavLinks. */}
+               
                 <p>
                     &copy; 2024 Sahayata Connect. All rights reserved. | 
                     <NavLink to="/privacy">Privacy Policy</NavLink> | 
